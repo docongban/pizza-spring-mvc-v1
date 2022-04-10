@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    color: #333;
+    font-size: 62.5%;
+    font-family: 'Nunito', sans-serif;
+}
+.main{
+    background: #fff;
+    display: flex;
+    justify-content: center;
+}
+input::placeholder{
+    color: #006a3270;
+}
+.form{
+    width: 480px;
+    min-height: 100px;
+    padding: 32px 24px;
+    background: #fff;
+    border-radius: 7px;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    align-self: center;
+    box-shadow: 3px 5px 30px 3px  rgba(0,0,0,0.3);
+}
+.heading {
+    font-size: 3rem;
+    font-weight:700;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+.form-label,
+.form-message {
+    text-align: left;
+}
+.form-label {
+    font-weight: 700;
+    padding-bottom: 6px;
+    line-height: 1.8rem;
+    font-size: 1.5rem;
+}
+.form-control {
+    outline: none;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    background: #fafafa;
+    padding: 5px 20px;
+    width: 100%;
+    height: 40px;
+    font-size: 1.5rem;
+    caret-color: #006a31;
+}
+.form-control:hover {
+    border-color: #006a31;
+}
+.form-group.invalid .form-control {
+    border-color: #f33a58;
+}
+.form-group.invalid .form-message {
+    color: #f33a58;
+    font-weight: 500;
+}
+.form-message {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    padding: 4px 0 0;
+}
+.form-submit {
+    outline: none;
+    background-color: #006a31;
+    margin-top: 12px;
+    padding: 12px 16px;
+    font-weight: 500;
+    color: #fff;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.form-submit:hover {
+    background-color: #044b25;
+} 
+
+.form-submit span{
+    margin-left: 12px;
+}
+
+.spacer {
+    margin-top: 25px;
+    font-size: 13px;
+    color: #ff4f60;
+    font-weight: 700;
+    line-height: 23px;
+}
+
+.question{
+    font-size: 16px;
+}
+
+.question-link{
+    color: #00addf;
+    font-size: 14px;
+}
+
+.warning{
+    font-size: 13px;
+    color: #ff4f60;
+    font-weight: 700;
+    line-height: 23px;
+}
