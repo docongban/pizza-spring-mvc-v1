@@ -2,11 +2,11 @@
 
 ### Build Web Service Using
 
--Front-end: 
+- Front-end: 
 	* HTML/CSS
 	* Javascrip
 	* Bootstrap
--Back-end: 
+- Back-end: 
 	* Java Spring boot
 	* Spring data jpa
 	* Lombok
