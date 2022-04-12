@@ -742,8 +742,7 @@ img{
 .product-cart__img{
     width: 110px;
     height: 108px;
-    background-repeat: no-repeat;
-    background-size: contain;
+    object-fit: contain;
     margin: 0 40px;
 }
 .product-cart__content{

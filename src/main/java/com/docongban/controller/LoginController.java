@@ -92,6 +92,8 @@ public class LoginController {
 		
 		Account account = accountService.accountLogin(phone, password);
 		if(account != null) {
+			session.setAttribute("account", account);
+			
 			session.setAttribute("fullname", account.getFullname());
 			session.setMaxInactiveInterval(60*60*24);
 			return "redirect:/";
