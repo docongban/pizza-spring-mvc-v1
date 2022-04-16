@@ -174,54 +174,6 @@ html {
     margin-right: 15px;
 }
 
-.table_account{
-    border-collapse: collapse; 
-    font-size: 1.6rem;
-    width: 100%;
-}
-.table_account__head{
-    font-size: 1.8rem;
-}
-.table_account__head-item{
-    border: 1px solid var(--primary-color);
-    padding: 5px 0;
-}
-tr > th:nth-child(1){
-    width: 35px;
-}
-tr > th:nth-child(2),
-tr > th:nth-child(5),
-tr > th:nth-child(6){
-    width: 150px;
-}
-tr > th:nth-child(3),
-tr > th:nth-child(4){
-    width: 180px;
-}
-tr > th:nth-child(7),
-tr > th:nth-child(8){
-    width: 132px;
-}
-.table_account__body-item{
-    border: 1px solid var(--primary-color);
-    padding: 5px;
-}
-tr > td:nth-child(1){
-    text-align: center;
-}
-.table_account__body-item-select{
-    pointer-events: none;
-    border: none;
-}
-.table_account__body-item-edit{
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius:5px;
-    background-color: var(--primary-color);
-}
-
 /* Navbar */
 .navbar{
     background-color:var(--primary-color);
@@ -1118,3 +1070,50 @@ img{
     color: #444;
 }
 
+
+
+
+/*admin*/
+.table-bill{
+    width: 100%;
+    margin-top: 45px;
+    font-size: 1.8rem;
+    border: 1px solid var(--primary-color);
+    border-collapse: collapse;
+}
+th, td{
+    border: 1px solid var(--primary-color);
+    padding: 10px 10px;
+}
+.bill-index{
+    width: 45px;
+}
+.bill-order-date{
+    width: 170px;
+}
+.bill-information-detail{
+    background-color:rgba(31, 163, 101, 0.2);
+}
+
+.bill-product-detail{
+    display: flex;
+    align-items: center;
+    border: none;
+}
+.bill-total{
+    padding-right: 30px;
+    font-size: 2.2rem;
+    float: right;
+}
+.btn_complete{
+    padding: 6px 15px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn_complete.complete{
+    pointer-events: none;
+    background-color:#006a3277;
+}

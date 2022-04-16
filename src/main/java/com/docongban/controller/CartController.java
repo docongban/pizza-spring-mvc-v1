@@ -16,7 +16,11 @@ import com.docongban.entity.Account;
 import com.docongban.entity.Category;
 import com.docongban.entity.Item;
 import com.docongban.entity.Order;
+import com.docongban.entity.OrderAccount;
+import com.docongban.entity.OrderDetail;
 import com.docongban.repository.CategoryRepository;
+import com.docongban.repository.OrderAccountRepository;
+import com.docongban.repository.OrderDetailRepository;
 import com.docongban.repository.OrderRepository;
 import com.docongban.repository.ProductRepository;
 import com.docongban.service.CartService;
@@ -35,6 +39,12 @@ public class CartController {
 	
 	@Autowired
 	OrderRepository orderRepository;
+	
+	@Autowired
+	OrderAccountRepository orderAccountRepository;
+	
+	@Autowired
+	OrderDetailRepository orderDetailRepository;
 	
 	//add to cart
 	@GetMapping("/addToCart/{id}")
@@ -170,19 +180,43 @@ public class CartController {
 		List<Category> categoris = categoryRepository.findAll();
 		model.addAttribute("categoris", categoris);
 		ArrayList<Item> item_list = (ArrayList<Item>) session.getAttribute("item-list");
+		List<Item> items = null;
 		Account accountSession = (Account) session.getAttribute("account");
 		
 		Date d=new Date();
-
 		if(item_list!=null && accountSession!=null) {
-			for(Item i: item_list) {
+			
+			items = cartService.getItemProduct(item_list);
+			
+			OrderAccount orderAccount = new OrderAccount();
+			orderAccount.setAccountFullname(accountSession.getFullname());
+			orderAccount.setAccountPhone(accountSession.getPhone());
+			orderAccount.setAccountEmail(accountSession.getEmail());
+			orderAccount.setAccountAddress(accountSession.getAddress());
+			orderAccount.setOrderDate(new java.sql.Timestamp(d.getTime()));
+			orderAccountRepository.save(orderAccount);
+			
+			for(Item i: items) {
+				
 				Order order=new Order();
+				
 				order.setProductId(i.getId());
 				order.setAccountId(accountSession.getId());
+				order.setOrderAccountId(orderAccountRepository.getMaxId());
 				order.setQuantiy(i.getQuantity());
 				order.setOrderDate(new java.sql.Timestamp(d.getTime()));
 				
 				orderRepository.save(order);
+				
+				
+				OrderDetail orderDetail = new OrderDetail();
+				orderDetail.setProductTitle(i.getTitle());
+				orderDetail.setProductThumbnail(i.getThumbnail());
+				orderDetail.setProductContent(i.getContent());
+				orderDetail.setProductPrice(i.getPrices());
+				orderDetail.setOrderQuantity(i.getQuantity());
+				orderDetail.setOrderAccountId(orderAccountRepository.getMaxId());
+				orderDetailRepository.save(orderDetail);
 			}
 			item_list.clear();
 			return "complete";

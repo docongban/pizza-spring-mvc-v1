@@ -1,7 +1,5 @@
 package com.docongban.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,16 +9,17 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "order_detail")
 @Data
-public class Order  {
-
+public class OrderDetail {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int accountId;
-	private int productId;
+	private String productTitle;
+	private String productContent;
+	private String productThumbnail;
+	private long productPrice;
+	private int orderQuantity;
 	private int orderAccountId;
-	private int quantiy;
-	private Date orderDate;
 }

@@ -11,16 +11,17 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "order_account")
 @Data
-public class Order  {
-
+public class OrderAccount {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int accountId;
-	private int productId;
-	private int orderAccountId;
-	private int quantiy;
+	private String accountFullname;
+	private String accountPhone;
+	private String accountEmail;
+	private String accountAddress;
+	private int orderStatus;
 	private Date orderDate;
 }

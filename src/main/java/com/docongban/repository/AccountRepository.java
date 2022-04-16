@@ -12,4 +12,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	
 	@Query(value = "select * from account where phone =?1", nativeQuery = true)
 	public Account findAccountByPhone(String phone);
+	
+	@Query(value = "select * from account where id =?1", nativeQuery = true)
+	public Account findAccountById(int id);
 }
