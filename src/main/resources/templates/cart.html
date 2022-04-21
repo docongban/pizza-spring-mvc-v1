@@ -155,7 +155,7 @@
                                 <span class="navbar_cart-text">Giỏ hàng</span>
                             </a>
                             <div class="navbar_cart-amount">
-                                <span class="navbar_cart-count" th:text="${session.cartSize}"></span>
+                                <span class="navbar_cart-count" th:text="${session.cartSize ==null ? '0' : session.cartSize }"></span>
                             </div>
 
 							<div class="navbar_cart-list" style="min-height: 125px" th:if="${session.cartSize}">

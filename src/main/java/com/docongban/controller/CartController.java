@@ -58,33 +58,38 @@ public class CartController {
 		Item item=new Item();
 		item.setId(id);
 		item.setQuantity(1);
+		List<Item> items = null;
 		
 		ArrayList<Item> item_list = (ArrayList<Item>) session.getAttribute("item-list");
+		
 		if(item_list==null) {
 			itemList.add(item);
 			session.setAttribute("item-list", itemList);
+			session.setAttribute("cartSize", itemList.size());
             session.setMaxInactiveInterval(60*60*24);
-            return "redirect:/cart";
+            return "redirect:/";
 		}else {
 			itemList = item_list;
+			items=cartService.getItemProduct(item_list);
 			boolean exist = false;
             for (Item i : item_list) {
                 if (i.getId() == id) {
-                	
                     exist = true;
                     int quantity = i.getQuantity();
                     quantity++;
                     i.setQuantity(quantity);
-                    return "redirect:/cart";
+                    return "redirect:/";
                 }
             }
             if (!exist) {
             	itemList.add(item);
-            	return "redirect:/cart";
+            	session.setAttribute("itemsSession", items);
+            	session.setAttribute("cartSize", itemList.size());
+            	return "redirect:/";
             }
+            
 		}
-		
-		return "cart";
+		return "index";
 	}
 	
 	@GetMapping("/cart")
@@ -219,6 +224,8 @@ public class CartController {
 				orderDetailRepository.save(orderDetail);
 			}
 			item_list.clear();
+			session.removeAttribute("item-list");
+			session.setAttribute("cartSize", 0);
 			return "complete";
 		}else {
 			if(accountSession==null) {
