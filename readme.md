@@ -9,6 +9,7 @@
 - Back-end: 
 	* Java Spring boot
 	* Spring data jpa
+	* Spring security
 	* Lombok
 	* Mysql database
 	* Thymeleaf
