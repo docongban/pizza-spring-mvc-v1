@@ -94,11 +94,11 @@
                     <div class="header-account">
                         <div class="header-account_login">
                             <i class="far fa-user header-account_login-icon"></i>
-                            <a th:href="@{/login}" class="header-account-text">Đăng nhập</a>
+                            <a th:href="@{/auth/login}" class="header-account-text">Đăng nhập</a>
                         </div>
                         <span>/</span>
                         <div class="header-account_register">
-                            <a th:href="@{/register}" class="header-account-text">Tạo tài khoản</a>
+                            <a th:href="@{/auth/register}" class="header-account-text">Tạo tài khoản</a>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
         <!-- End header -->
 
         <div class="main">
-            <form th:action="@{/login}" method="post" class="form" id="register-form">
+            <form th:action="@{/auth/login}" method="post" class="form" id="register-form">
                 <h3 class="heading">Đăng nhập</h3>
 
                 <div class="spacer">[[${error}]]</div>
@@ -179,7 +179,7 @@
 
 				<div class="question">
                     Bạn đã có tài khoản chưa? 
-                    <a th:href="@{/register}" class="question-link">Tạo tài khoản</a>
+                    <a th:href="@{/auth/register}" class="question-link">Tạo tài khoản</a>
                 </div>
 
                 <button class="form-submit">Đăng nhập

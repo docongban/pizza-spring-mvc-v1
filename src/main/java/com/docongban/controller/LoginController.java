@@ -1,25 +1,29 @@
 package com.docongban.controller;
 
-import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.docongban.entity.Account;
 import com.docongban.entity.Category;
+import com.docongban.jwt.JwtTokenProvider;
+import com.docongban.payload.RegisterRequest;
 import com.docongban.repository.AccountRepository;
 import com.docongban.repository.CategoryRepository;
 import com.docongban.service.AccountService;
+import com.docongban.service.AuthService;
 
 @Controller
+@RequestMapping("/auth")
 public class LoginController {
 
 	@Autowired
@@ -30,6 +34,12 @@ public class LoginController {
 	
 	@Autowired(required = true)
 	AccountService accountService;
+	
+	@Autowired
+	AuthService authService;
+	
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
 	
 	@GetMapping("/register")
 	public String register(Model model) {
@@ -42,8 +52,14 @@ public class LoginController {
 	}
 	
 	@PostMapping("/register")
-	public String createAccount(Model model,@ModelAttribute Account account, @RequestParam("fullname") String fullname, 
-			@RequestParam("email") String email, @RequestParam("address") String address, @RequestParam("phone") String phone) {
+	public String createAccount(
+			Model model, 
+			@RequestParam("fullname") String fullname,
+			@RequestParam("email") String email, 
+			@RequestParam("address") String address, 
+			@RequestParam("phone") String phone,
+			@RequestParam("password") String password
+		) {
 		
 		//get all category
 		List<Category> categoris = categoryRepository.findAll();
@@ -51,7 +67,7 @@ public class LoginController {
 		
 		boolean accountCheck = accountService.checkAccountExisted(phone);
 		
-		if(!accountCheck ) {
+		if( !accountCheck ) {
 			model.addAttribute("fullname", fullname);
 			model.addAttribute("email", email);
 			model.addAttribute("address", address);
@@ -61,14 +77,11 @@ public class LoginController {
 			return "register";
 		}
 		
-		//get datetime now 
-		Date d=new Date();
-		account.setCreatedAt(new java.sql.Timestamp(d.getTime()));
-		account.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+		// Xử lý service liên quan đến đăng ký.
+		RegisterRequest registerRequest = new RegisterRequest(phone, password, fullname, email, address, password);
+		authService.handleRegister(registerRequest);
 		
-		accountRepository.save(account);
-		
-		return "redirect:/login";
+		return "redirect:/auth/login";
 	}
 	
 	@GetMapping("/login")
@@ -82,22 +95,31 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String checkLogin(Model model, 
-							@RequestParam("phone") String phone, @RequestParam("password") String password,
-							HttpSession session) {
+	public String checkLogin(
+			Model model, 
+			@RequestParam("phone") String phone, 
+			@RequestParam("password") String password,
+			HttpServletRequest request
+		) {
+		
+		HttpSession session = request.getSession();
 		
 		//get all category
 		List<Category> categoris = categoryRepository.findAll();
 		model.addAttribute("categoris", categoris);
 		
-		Account account = accountService.accountLogin(phone, password);
-		if(account != null) {
+		// Xử lý service liên quan đến đăng nhập.
+		String token = authService.handleLogin(phone, password, request);
+		
+		// Nếu đăng nhập thành công -> lấy ra Account từ jwt:
+		if(token != null) {
+			Integer accountId = jwtTokenProvider.getAccountIdFromJWT(token);
+			Account account = accountRepository.getById(accountId);
 			session.setAttribute("account", account);
-			
 			session.setAttribute("fullname", account.getFullname());
 			session.setMaxInactiveInterval(60*60*24);
 			return "redirect:/";
-		}else {
+		} else {
 			model.addAttribute("phone", phone);
 			model.addAttribute("error", "Vui lòng kiểm tra lại số điện thoại hoặc mật khẩu");
 		}
@@ -106,10 +128,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		
-		session.removeAttribute("fullname");
-		
-		return "redirect:/login";
+	public String logout(HttpServletRequest request) {
+		authService.handleLogout(request);
+		return "redirect:/auth/login";
 	}
 }

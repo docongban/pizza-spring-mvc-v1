@@ -101,16 +101,16 @@
                         <!-- if not login -->
                         <div class="header-account_login" th:unless="${session.fullname}">
                             <i class="far fa-user header-account_login-icon"></i>
-                            <a th:href="@{/login}" class="header-account-text">Đăng nhập</a>
+                            <a th:href="@{/auth/login}" class="header-account-text">Đăng nhập</a>
                         </div>
                         <span>/</span>
                         <div class="header-account_register" th:unless="${session.fullname}">
-                            <a th:href="@{/register}" class="header-account-text">Tạo tài khoản</a>
+                            <a th:href="@{/auth/register}" class="header-account-text">Tạo tài khoản</a>
                         </div>
                         
                         <!-- logined -->
                         <div class="header-account_login" th:if="${session.fullname}">
-                            <a th:href="@{/logout}" class="header-account-text" >Đăng xuất</a>
+                            <a th:href="@{/auth/logout}" class="header-account-text" >Đăng xuất</a>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                             </a>
                             
                             <div class="navbar_cart-amount" >
-                                <span class="navbar_cart-count" th:text="${(session.cartSize == 0 || session.itemsSession == null) ? '0' : session.cartSize}"></span>
+                                <span class="navbar_cart-count" th:text="${(session.cartSize == null || session.cartSize == 0) ? '0' : session.cartSize}"></span>
                             </div>
 
                             <div class="navbar_cart-list" style="min-height: 125px" th:if="${session.cartSize}">
@@ -225,7 +225,7 @@
             <div class="grid fix-wide">
                 <div class="row">
                     <div class="col l-3" th:each="product : ${products}">
-                        <a th:href="@{/addToCart/{id}(id=${product.id}) }" class="product-item">
+                        <a th:href="@{/cart/addToCart/{id}(id=${product.id}) }" class="product-item">
                             <div class="product-item-show">
                                 <img th:src="${product.thumbnail}" th:alt="${product.title}" class="product-item__img"/>
                                 <div class="product-item__name" th:text="${product.title}"></div>
@@ -239,7 +239,6 @@
                                 <div class="product-item__wrapper-button">
                                     <span class="product-item__wrapper-button-text">Mua ngay</span>
                                     <i class="fas fa-arrow-right product-item__wrapper-button-btn"></i>
-
                                 </div>
                             </div>
                         </a>

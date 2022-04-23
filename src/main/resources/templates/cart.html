@@ -101,16 +101,16 @@
                         <!-- if not login -->
                         <div class="header-account_login" th:unless="${session.fullname}">
                             <i class="far fa-user header-account_login-icon"></i>
-                            <a th:href="@{/login}" class="header-account-text">Đăng nhập</a>
+                            <a th:href="@{/auth/login}" class="header-account-text">Đăng nhập</a>
                         </div>
                         <span>/</span>
                         <div class="header-account_register" th:unless="${session.fullname}">
-                            <a th:href="@{/register}" class="header-account-text">Tạo tài khoản</a>
+                            <a th:href="@{/auth/register}" class="header-account-text">Tạo tài khoản</a>
                         </div>
                         
                         <!-- logined -->
                         <div class="header-account_login" th:if="${session.fullname}">
-                            <a th:href="@{/logout}" class="header-account-text" >Đăng xuất</a>
+                            <a th:href="@{/auth/logout}" class="header-account-text" >Đăng xuất</a>
                         </div>
                     </div>
                 </div>
@@ -197,12 +197,12 @@
                             <div class="product-cart__price-old" th:text="${item.price} + ' đ'"></div>
                             
                             <!--<div class="product-cart__count"><%=c.getQuantity()%></div>-->
-                            <a th:href="@{/quantity-dec/{id}(id=${item.id})}" class="product-cart__btn_left"><i class="fas fa-angle-left"></i></a> 
+                            <a th:href="@{/cart/quantity-dec/{id}(id=${item.id})}" class="product-cart__btn_left"><i class="fas fa-angle-left"></i></a> 
                             <input type="text" name="quantity" th:value="${item.quantity}" class="product-cart__quantity" readonly>
-                            <a th:href="@{/quantity-inc/{id}(id=${item.id})}" class="product-cart__btn_right"><i class="fas fa-angle-right"></i></a> 
+                            <a th:href="@{/cart/quantity-inc/{id}(id=${item.id})}" class="product-cart__btn_right"><i class="fas fa-angle-right"></i></a> 
                             
                             <div class="product-cart__price" th:text="${item.prices + ' đ'}"></div>
-                            <a th:href="@{/removeProductCart/{id}(id=${item.id})}" class="product-cart__delete">
+                            <a th:href="@{/cart/removeProductCart/{id}(id=${item.id})}" class="product-cart__delete">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </div>
@@ -217,7 +217,7 @@
                         <i class="fas fa-arrow-left"></i>
                         <span class="product-btn__return-title">Tiếp tục mua hàng</span>
                     </a>
-                    <a th:href="@{/check-out}" class="product-btn__pay">
+                    <a th:href="@{/cart/check-out}" class="product-btn__pay">
                         <span class="product-btn__pay-title">Thanh toán</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>

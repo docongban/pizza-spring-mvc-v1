@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.docongban.entity.Account;
 import com.docongban.entity.Category;
@@ -26,6 +28,7 @@ import com.docongban.repository.ProductRepository;
 import com.docongban.service.CartService;
 
 @Controller
+@RequestMapping("/cart")
 public class CartController {
 
 	@Autowired
@@ -48,7 +51,7 @@ public class CartController {
 	
 	//add to cart
 	@GetMapping("/addToCart/{id}")
-	public String getProductByIdToCart(Model model, @PathVariable int id, HttpSession session) {
+	public RedirectView getProductByIdToCart(Model model, @PathVariable int id, HttpSession session) {
 		
 		//get all category
 		List<Category> categoris = categoryRepository.findAll();
@@ -62,11 +65,13 @@ public class CartController {
 		ArrayList<Item> item_list = (ArrayList<Item>) session.getAttribute("item-list");
 		if(item_list==null) {
 			itemList.add(item);
+			List<Item> items = cartService.getItemProduct(itemList);
+			session.setAttribute("itemsSession", items);
 			session.setAttribute("item-list", itemList);
+			session.setAttribute("cartSize", itemList.size());
             session.setMaxInactiveInterval(60*60*24);
-            return "redirect:/cart";
+            return new RedirectView("/");
 		}else {
-			itemList = item_list;
 			boolean exist = false;
             for (Item i : item_list) {
                 if (i.getId() == id) {
@@ -75,22 +80,27 @@ public class CartController {
                     int quantity = i.getQuantity();
                     quantity++;
                     i.setQuantity(quantity);
-                    return "redirect:/cart";
+                    break;
                 }
             }
             if (!exist) {
-            	itemList.add(item);
-            	return "redirect:/cart";
+            	item_list.add(item);
             }
 		}
 		
-		return "cart";
+		List<Item> items = cartService.getItemProduct(item_list);
+		session.setAttribute("itemsSession", items);
+		
+		session.setAttribute("item-list", item_list);
+		session.setAttribute("cartSize", item_list.size());
+		
+		return new RedirectView("/");
 	}
 	
-	@GetMapping("/cart")
+	@GetMapping()
 	public String cartProduct(Model model, HttpSession session) {
 		
-		//get all category
+		//get all category 
 		List<Category> categoris = categoryRepository.findAll();
 		model.addAttribute("categoris", categoris);
 		
@@ -219,6 +229,8 @@ public class CartController {
 				orderDetailRepository.save(orderDetail);
 			}
 			item_list.clear();
+			session.setAttribute("cartSize", 0);
+			session.removeAttribute("item-list");
 			return "complete";
 		}else {
 			if(accountSession==null) {

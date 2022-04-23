@@ -101,16 +101,16 @@
                         <!-- if not login -->
                         <div class="header-account_login" th:unless="${session.fullname}">
                             <i class="far fa-user header-account_login-icon"></i>
-                            <a th:href="@{/login}" class="header-account-text">Đăng nhập</a>
+                            <a th:href="@{/auth/login}" class="header-account-text">Đăng nhập</a>
                         </div>
                         <span>/</span>
                         <div class="header-account_register" th:unless="${session.fullname}">
-                            <a th:href="@{/register}" class="header-account-text">Tạo tài khoản</a>
+                            <a th:href="@{/auth/register}" class="header-account-text">Tạo tài khoản</a>
                         </div>
                         
                         <!-- logined -->
                         <div class="header-account_login" th:if="${session.fullname}">
-                            <a th:href="@{/logout}" class="header-account-text" >Đăng xuất</a>
+                            <a th:href="@{/auth/logout}" class="header-account-text" >Đăng xuất</a>
                         </div>
                     </div>
                 </div>
