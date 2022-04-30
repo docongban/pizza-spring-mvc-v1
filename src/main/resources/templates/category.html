@@ -225,7 +225,7 @@
             <div class="grid fix-wide">
                 <div class="row">
                     <div class="col l-3" th:each="product : ${products}">
-                        <a href="#" class="product-item">
+                        <a th:href="@{/addToCart/{id}(id=${product.id}) }" class="product-item">
                             <div class="product-item-show">
                                 <img th:src="${product.thumbnail}" th:alt="${product.title}" class="product-item__img"/>
                                 <div class="product-item__name" th:text="${product.title}"></div>

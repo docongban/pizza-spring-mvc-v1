@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,33 +58,12 @@ public class AdminController {
 		return "admin/bill";
 	}
 	
+	@Transactional
 	@GetMapping("/bill/complete/{id}")
-	public String checkComplete(Model model,  @PathVariable int id) {
-		
-		DecimalFormat df = new DecimalFormat(",###");
-		
-		List<OrderAccount> orderAccounts = orderAccountRepository.findAll();
-		List<OrderDetail> orderDetails = orderDetailRepository.findAll();
-		List<String> totalPrice = new ArrayList<>();
-		
-		for(OrderAccount oc: orderAccounts) {
-			long total=0;
-			for(OrderDetail od: orderDetails) {
-				if(oc.getId()==od.getOrderAccountId()) {
-					total+=od.getProductPrice();
-				}
-			}
-			totalPrice.add(df.format(total));
-		}
+	public String checkComplete(@PathVariable int id) {
 		
 		orderAccountRepository.updateStatus(id);
-		
-		model.addAttribute("orderAccounts", orderAccounts);
-		model.addAttribute("orderDetails", orderDetails);
-		model.addAttribute("totalPrice", totalPrice);
 
-		
-		
 		return "redirect:/admin/bill";
 	}
 }

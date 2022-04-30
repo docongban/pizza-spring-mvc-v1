@@ -134,7 +134,7 @@
                                 </div>
                             </td>
                             <td style="text-align: center;">
-                                <a th:href="@{/admin/bill/complete/{id}(id=${orderAccount.id})}" class="btn_complete">Hoàn thành</a>
+                                <a th:href="@{/admin/bill/complete/{id}(id=${orderAccount.id})}" class="btn_complete" th:text="${orderAccount.orderStatus == 1 ? 'Đã hoàn thành' : 'Hoàn thành'}"></a>
                             </td>
                         </tr>
                     </tbody>
