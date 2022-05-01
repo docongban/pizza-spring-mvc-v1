@@ -105,12 +105,23 @@ public class AdminController {
 		return "/admin/formCategory";
 	}
 	//save
+//	@PostMapping("/categories/save")
+//	public String handleAddCategory(@ModelAttribute Category category, @RequestParam("nameCategory") String nameCategory) {
+//		
+//		//get datetime now 
+//		Date d=new Date();
+//		category.setName(nameCategory);
+//		category.setCreatedAt(new java.sql.Timestamp(d.getTime()));
+//		category.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+//		categoryRepository.save(category);
+//		
+//		return "redirect:/admin/categories";
+//	}
 	@PostMapping("/categories/save")
-	public String handleAddCategory(@ModelAttribute Category category, @RequestParam("nameCategory") String nameCategory) {
+	public String handleAddCategory(@ModelAttribute("category") Category category) {
 		
 		//get datetime now 
 		Date d=new Date();
-		category.setName(nameCategory);
 		category.setCreatedAt(new java.sql.Timestamp(d.getTime()));
 		category.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
 		categoryRepository.save(category);
@@ -119,7 +130,7 @@ public class AdminController {
 	}
 	//edit save
 	@PostMapping("/categories/edit")
-	public String handleEditCategory(Category category) {
+	public String handleEditCategory(@ModelAttribute("category") Category category) {
 		
 		//get datetime now 
 		Date d=new Date();

@@ -93,10 +93,10 @@
 
             <div class="grid fix-wide">
             	<!-- create  -->
-            	<form th:action="@{/admin/categories/save}" method="post" class="form-add" th:if="${category==null}">
+            	<form th:action="@{/admin/categories/save}" th:object="${category}" method="post" class="form-add" th:if="${category==null}">
 	                <div class="input-block">
 	                	<label for="input-add" class="label-input-add">Tên danh mục: </label>
-	                	<input type="text" class="input-add" id="nameCategory" name="nameCategory"/>
+	                	<input type="text" class="input-add" id="nameCategory" name="name"/>
 	                </div>
 	                <button class="btn-add">Thêm</button>
                 </form>
