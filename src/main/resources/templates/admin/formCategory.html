@@ -87,58 +87,28 @@
         <div class="container">
             <div class="grid fix-wide" style="padding-top: 45px">
                 <div class="container_header">
-                    <span class="container_header-text" >Quản lý hóa đơn</span>
+                    <span class="container_header-text" >Thêm danh mục</span>
                 </div>
             </div>
 
             <div class="grid fix-wide">
-                <table class="table-bill">
-                    <thead >
-                        <tr style="background-color: rgba(31, 163, 101, 0.4);">
-                            <th scope="col" class="bill-index" >STT</th>
-                            <th scope="col" class="bill-information">Thông tin</th>
-                            <th scope="col" class="bill-order-date">Ngày đặt</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-bill-title" th:each="i: ${#numbers.sequence(orderAccounts.size() - 1, 0, -1)}" th:with="orderAccount = ${orderAccounts[i]}">
-                    	<tr class="bill-information-detail">
-                            <th scope="row" class="bill-index" th:text="${i+1}" ></th>
-                            <td>
-                                Họ và tên:
-                                <span style="width:250px;display:inline-block" th:text="${orderAccount.accountFullname}"></span>
-                                SĐT: 
-                                <span style="width:200px;display:inline-block" th:text="${orderAccount.accountPhone}"></span>
-                                Email:
-                                <span th:text="${orderAccount.accountEmail}"></span></br><br>
-                                Địa chỉ:
-                                <span th:text="${orderAccount.accountAddress}"></span></br>
-                            </td>
-                            <td th:text="${orderAccount.orderDate}" style="text-align: center;"></td>
-                        </tr>
-                        <tr th:each="orderDetail : ${orderDetails}" th:if="${orderDetail.orderAccountId == orderAccount.id}">
-                            <td></td>
-                            <td class="bill-product-detail">    
-                                <img th:src="${orderDetail.productThumbnail}" class="bill-product-detail-img" style="max-width:100px"/>
-                                <span th:text="${orderDetail.productTitle}" style="width:450px;display:inline-block;padding-left:20px;"></span>
-                                <span th:text="${orderDetail.orderQuantity}" style="width:150px;display:inline-block;text-align:center"></span>
-                                <span th:text="${orderDetail.productPrice + ' đ'}" style="display:inline-block;padding-left:50px;"></span>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div class="bill-total">
-                                    <span>Tổng: </span>
-                                    <span style="color: var(--active-color); font-weight: bold;" th:text="${totalPrice[i]}+ ' đ'"></span>
-                                </div>
-                            </td>
-                            <td style="text-align: center;">
-                                <a th:href="@{/admin/bill/complete/{id}(id=${orderAccount.id})}" class="btn_complete" th:text="${orderAccount.orderStatus == 1 ? 'Đã hoàn thành' : 'Hoàn thành'}"></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                  </table>
+            	<!-- create  -->
+            	<form th:action="@{/admin/categories/save}" method="post" class="form-add" th:if="${category==null}">
+	                <div class="input-block">
+	                	<label for="input-add" class="label-input-add">Tên danh mục: </label>
+	                	<input type="text" class="input-add" id="nameCategory" name="nameCategory"/>
+	                </div>
+	                <button class="btn-add">Thêm</button>
+                </form>
+                <!-- edit -->
+            	<form th:action="@{/admin/categories/edit}" method="post" class="form-add" th:object="${category}" th:if="${category}">
+	                <div class="input-block">
+	                	<input type="hidden" th:field="*{id}"/>
+	                	<label for="input-add" class="label-input-add">Tên danh mục: </label>
+	                	<input type="text" th:field="*{name}" class="input-add" id="nameCategory" name="nameCategory"/>
+	                </div>
+	                <button class="btn-add">Thêm</button>
+                </form>
             </div>
         </div>
         <!-- End container -->

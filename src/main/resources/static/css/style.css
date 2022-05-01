@@ -1076,7 +1076,7 @@ img{
 /*admin*/
 .table-bill{
     width: 100%;
-    margin-top: 45px;
+    margin: 45px 0;
     font-size: 1.8rem;
     border: 1px solid var(--primary-color);
     border-collapse: collapse;
@@ -1116,4 +1116,71 @@ th, td{
 .btn_complete.complete{
     pointer-events: none;
     background-color:#006a3277;
+}
+.edit-column{
+	width: 40px;
+}
+.date-column{
+	width: 125px;
+}
+.add-btn{
+	background-color: var(--primary-color);
+	text-decoration: none;
+	padding: 5px 10px;
+	color: #fff;
+	border-radius: 10px;
+	font-size: 1.8rem;
+	font-weight: 700;
+	display: block;
+	width: 105px;
+	margin-top: 15px;
+}
+.edit-btn,
+.delete-btn{
+	background-color: #f7941d;
+	text-decoration: none;
+	padding: 5px 10px;
+	color: #000;
+	border-radius: 10px;
+}
+.delete-btn{
+	background-color: #198754;
+}
+.form-add{
+	padding-top: 20px;
+	padding-bottom: 45px;
+}
+.input-block{
+	margin: 20px 0;
+	font-size: 1.6rem;
+	display: flex;
+	align-items: center;
+}
+.label-input-add{
+	display: block;
+	width: 105px;
+}
+.input-add{
+	border: 1px solid var(--primary-color); 
+	border-radius: 5px;
+	outline: none;
+	width: 50%;
+	padding: 10px;
+}
+.btn-add{
+	border: none;
+	outline: none;
+	font-size: 1.8rem;
+	color: #fff;
+	border-radius: 5px;
+	background-color: var(--primary-color);
+	padding: 10px 25px;
+	cursor: pointer;
+}
+.type-product{
+	width: 25%;
+	border: 1px solid var(--primary-color); 
+	border-radius: 5px;
+	outline: none;
+	padding: 10px 0 10px 10px;
 }

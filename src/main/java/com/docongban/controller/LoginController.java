@@ -95,6 +95,7 @@ public class LoginController {
 			session.setAttribute("account", account);
 			
 			session.setAttribute("fullname", account.getFullname());
+			session.setAttribute("role", account.getRole());
 			session.setMaxInactiveInterval(60*60*24);
 			return "redirect:/";
 		}else {

@@ -87,54 +87,39 @@
         <div class="container">
             <div class="grid fix-wide" style="padding-top: 45px">
                 <div class="container_header">
-                    <span class="container_header-text" >Quản lý hóa đơn</span>
+                    <span class="container_header-text" >Quản lý sản phẩm</span>
                 </div>
+                
             </div>
 
             <div class="grid fix-wide">
+            	<a th:href="@{/admin/products/create}" class="add-btn">Thêm mới</a>
                 <table class="table-bill">
                     <thead >
                         <tr style="background-color: rgba(31, 163, 101, 0.4);">
                             <th scope="col" class="bill-index" >STT</th>
-                            <th scope="col" class="bill-information">Thông tin</th>
-                            <th scope="col" class="bill-order-date">Ngày đặt</th>
+                            <th scope="col" class="name-column">Ảnh</th>
+                            <th scope="col" class="name-column">Tên</th>
+                            <th scope="col" class="name-column">Mô tả</th>
+                            <th scope="col" class="name-column">Giá</th>
+                            <th scope="col" class="edit-column">Sửa</th>
+                            <th scope="col" class="edit-column">Xóa</th>
                         </tr>
                     </thead>
-                    <tbody class="table-bill-title" th:each="i: ${#numbers.sequence(orderAccounts.size() - 1, 0, -1)}" th:with="orderAccount = ${orderAccounts[i]}">
-                    	<tr class="bill-information-detail">
-                            <th scope="row" class="bill-index" th:text="${i+1}" ></th>
-                            <td>
-                                Họ và tên:
-                                <span style="width:250px;display:inline-block" th:text="${orderAccount.accountFullname}"></span>
-                                SĐT: 
-                                <span style="width:200px;display:inline-block" th:text="${orderAccount.accountPhone}"></span>
-                                Email:
-                                <span th:text="${orderAccount.accountEmail}"></span></br><br>
-                                Địa chỉ:
-                                <span th:text="${orderAccount.accountAddress}"></span></br>
-                            </td>
-                            <td th:text="${orderAccount.orderDate}" style="text-align: center;"></td>
-                        </tr>
-                        <tr th:each="orderDetail : ${orderDetails}" th:if="${orderDetail.orderAccountId == orderAccount.id}">
-                            <td></td>
-                            <td class="bill-product-detail">    
-                                <img th:src="${orderDetail.productThumbnail}" class="bill-product-detail-img" style="max-width:100px"/>
-                                <span th:text="${orderDetail.productTitle}" style="width:450px;display:inline-block;padding-left:20px;"></span>
-                                <span th:text="${orderDetail.orderQuantity}" style="width:150px;display:inline-block;text-align:center"></span>
-                                <span th:text="${orderDetail.productPrice + ' đ'}" style="display:inline-block;padding-left:50px;"></span>
-                            </td>
-                            <td></td>
-                        </tr>
+                    <tbody class="table-bill-title" th:each="i: ${#numbers.sequence(0, products.size() - 1)}" th:with="product = ${products[i]}">
                         <tr>
-                            <td></td>
-                            <td>
-                                <div class="bill-total">
-                                    <span>Tổng: </span>
-                                    <span style="color: var(--active-color); font-weight: bold;" th:text="${totalPrice[i]}+ ' đ'"></span>
-                                </div>
+                            <td th:text="${i+1}" style="text-align: center;"></td>
+                            <td >
+                            	<img th:src="${product.thumbnail}" alt="" />
+                            </td>
+                            <td th:text="${product.title}"></td>
+                            <td th:text="${product.content}"></td>
+                            <td th:text="${product.price} + 'đ'"></td>
+                            <td style="text-align: center;">
+                            	<a th:href="@{/admin/product/{id}/edit(id=${product.id})}" class="edit-btn">Sửa</a>
                             </td>
                             <td style="text-align: center;">
-                                <a th:href="@{/admin/bill/complete/{id}(id=${orderAccount.id})}" class="btn_complete" th:text="${orderAccount.orderStatus == 1 ? 'Đã hoàn thành' : 'Hoàn thành'}"></a>
+                            	<a th:href="@{/admin/product/{id}/delete(id=${product.id})}" class="delete-btn">Xóa</a>
                             </td>
                         </tr>
                     </tbody>

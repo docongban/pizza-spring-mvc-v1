@@ -27,7 +27,7 @@
                         <div class="header-logo"></div>
                     </a>
 
-                    <div class="header-delivery-with-serach">
+                    <div class="header-delivery-with-serach" th:if="${session.role != 1}">
                         <div class="header-delivery">
                             <div class="header-delivery_item active">
                                 <i class="fas fa-shipping-fast header-delivery_item-logo"></i>
@@ -48,7 +48,6 @@
                             <i class="fas fa-store header-search-map"></i>
                             <input class="header-search_title" placeholder="Nhập cửa hàng"></input>
 
-                            
                             <div class="header-search_store">
                                 <ul class="header-search_store-item">
                                     <li class="header-search_store-list">The Pizza Company Cầu Giấy</li>
@@ -79,17 +78,17 @@
                         </div>
                     </div>
 
-                    <!-- <ul class="manager__page">
+                    <ul class="manager__page" th:if="${session.role == 1}">
                         <li class="manager__page--item">
-                            <a href="" class="manager__page--item-link">Quản lý sản phẩm</a>
+                            <a th:href="@{/admin/bill}" class="manager__page--item-link">Quản lý sản phẩm</a>
                         </li>
-                        <li class="manager__page--item">
+                        <!-- <li class="manager__page--item">
                             <a href="" class="manager__page--item-link">Quản lý Account</a>
                         </li>
                         <li class="manager__page--item">
                             <a href="" class="manager__page--item-link">Doanh số</a>
-                        </li>
-                    </ul> -->
+                        </li> -->
+                    </ul>
 
                     <div class="header-account">
                     	<!-- logined -->

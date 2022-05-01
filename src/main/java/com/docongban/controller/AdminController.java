@@ -1,7 +1,12 @@
 package com.docongban.controller;
 
+import java.security.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,14 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.docongban.entity.Category;
 import com.docongban.entity.OrderAccount;
 import com.docongban.entity.OrderDetail;
+import com.docongban.entity.Product;
 import com.docongban.repository.AccountRepository;
+import com.docongban.repository.CategoryRepository;
 import com.docongban.repository.OrderAccountRepository;
 import com.docongban.repository.OrderDetailRepository;
+import com.docongban.repository.ProductRepository;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,6 +45,13 @@ public class AdminController {
 	@Autowired
 	AccountRepository accountRepository;
 	
+	@Autowired
+	CategoryRepository categoryRepository;
+	
+	@Autowired
+	ProductRepository productRepository;
+	
+	//bill management
 	@GetMapping("/bill")
 	public String getBill(Model model) {
 		
@@ -58,6 +78,7 @@ public class AdminController {
 		return "admin/bill";
 	}
 	
+	//handle bill complete button 
 	@Transactional
 	@GetMapping("/bill/complete/{id}")
 	public String checkComplete(@PathVariable int id) {
@@ -65,5 +86,144 @@ public class AdminController {
 		orderAccountRepository.updateStatus(id);
 
 		return "redirect:/admin/bill";
+	}
+	
+	//category management
+	//get all catagory
+	@GetMapping("/categories")
+	public String getAllCategory(Model model) {
+		
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("categories", categories);
+		
+		return "admin/categories";
+	}
+	
+	//add category
+	@GetMapping("/category/create")
+	public String addCategory() {
+		return "/admin/formCategory";
+	}
+	//save
+	@PostMapping("/categories/save")
+	public String handleAddCategory(@ModelAttribute Category category, @RequestParam("nameCategory") String nameCategory) {
+		
+		//get datetime now 
+		Date d=new Date();
+		category.setName(nameCategory);
+		category.setCreatedAt(new java.sql.Timestamp(d.getTime()));
+		category.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+		categoryRepository.save(category);
+		
+		return "redirect:/admin/categories";
+	}
+	//edit save
+	@PostMapping("/categories/edit")
+	public String handleEditCategory(Category category) {
+		
+		//get datetime now 
+		Date d=new Date();
+		category.setCreatedAt(new java.sql.Timestamp(d.getTime()));
+		category.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+		categoryRepository.save(category);
+		
+		return "redirect:/admin/categories";
+	}
+	//get product id 
+	@GetMapping("/category/{id}/edit")
+	public String editCategory(@PathVariable int id, Model model) {
+		
+		model.addAttribute("category", categoryRepository.findById(id).get());
+		return "/admin/formCategory";
+	}
+	//delete
+	@GetMapping("/category/{id}/delete")
+	public String deleteCategory(@PathVariable int id, Model model) {
+		
+		Category category = categoryRepository.findById(id).get();
+		categoryRepository.delete(category);
+		
+		return "redirect:/admin/categories";
+	}
+	
+	//product management
+	//add product
+	@GetMapping("/products")
+	public String getAllProduct(Model model) {
+		
+		List<Product> products = productRepository.findAll();
+		model.addAttribute("products", products);
+		
+		return "admin/products";
+	}
+	
+	@GetMapping("/products/create")
+	public String addProduct(Model model) {
+		
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("categories", categories);
+		
+		return "/admin/formProduct";
+	}
+	//save
+//	@PostMapping("/products/save")
+//	public String handleAddProduct(@ModelAttribute Product product, @RequestParam("nameProduct") String nameProduct,
+//			@RequestParam("contentProduct") String contentProduct, @RequestParam("priceProduct") long priceProduct,
+//			@RequestParam("thumbnailProduct") String thumbnailProduct) {
+//		
+//		
+//		product.setTitle(thumbnailProduct);
+//		product.setContent(contentProduct);
+//		product.setPrice(priceProduct);
+//		product.setThumbnail(thumbnailProduct);
+//		//get datetime now 
+//		Date d=new Date();
+//		product.setCreatedAt(new java.sql.Timestamp(d.getTime()));
+//		product.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+//		productRepository.save(product);
+//		
+//		return "redirect:/admin/products";
+//	}
+	@PostMapping("/products/save")
+	public String handleAddProduct(@ModelAttribute("product") Product product) {
+		
+		//get datetime now 
+		Date d=new Date();
+		product.setCreatedAt(new java.sql.Timestamp(d.getTime()));
+		product.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+		productRepository.save(product);
+		
+		return "redirect:/admin/products";
+	}
+	//edit save
+	@PostMapping("/product/edit")
+	public String handleEditProduct(@ModelAttribute("product") Product product) {
+		
+		//get datetime now 
+		Date d=new Date();
+		product.setCreatedAt(new java.sql.Timestamp(d.getTime()));
+		product.setUpdatedAt(new java.sql.Timestamp(d.getTime()));
+		productRepository.save(product);
+		
+		return "redirect:/admin/products";
+	}
+	//get product id 
+	@GetMapping("/product/{id}/edit")
+	public String editProduct(@PathVariable int id, Model model) {
+		
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("categories", categories);
+		
+		model.addAttribute("product", productRepository.findById(id).get());
+		return "/admin/formProduct";
+	}
+	//delete
+	@GetMapping("/product/{id}/delete")
+	public String deleteProduct(@PathVariable int id, Model model) {
+		
+		Product product = productRepository.findById(id).get();
+		productRepository.delete(product);
+		
+		return "redirect:/admin/products";
 	}
 }
