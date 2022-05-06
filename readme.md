@@ -20,11 +20,17 @@
 * Spring 2.6.6
 * Esclip 
 
-### Uer sesction:
+### Uer sesstion:
 
 * Home Page
 * Product by Category
 * Login/Logout
 * Register
 * Search product by name
-* Cart
+* Cart & check-out
+
+### Admin sesstion:
+
+* CRUD category
+* CRUD product
+* Bill & check bill
